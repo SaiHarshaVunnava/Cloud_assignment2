@@ -1,20 +1,18 @@
 services:
   db:
-    build:
-      context: ./db
-      dockerfile: Dockerfile
+    image: postgres:16
     environment:
       POSTGRES_USER: appuser
       POSTGRES_PASSWORD: secretpw
       POSTGRES_DB: appdb
+    # Mount the seed SQL so it runs on FIRST init
+    volumes:
+      - "C:/Users/saiha/Desktop/Cloud_Assignment2/Cloud_assignment2/db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro"
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U appuser -d appdb"]
       interval: 3s
       timeout: 3s
       retries: 10
-    # Optional: expose if you want to connect with a GUI client
-    # ports:
-    #   - "5432:5432"
 
   app:
     build:
@@ -30,5 +28,6 @@ services:
       DB_PASS: secretpw
       DB_NAME: appdb
       APP_TOP_N: "10"
+    # ABSOLUTE host path → /out in container
     volumes:
-      - ./out:/out
+      - "C:/Users/saiha/Desktop/Cloud_Assignment2/Cloud_assignment2/out:/out"

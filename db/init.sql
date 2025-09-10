@@ -1,11 +1,13 @@
-CREATE TABLE trips (
+CREATE TABLE IF NOT EXISTS public.trips (
   id SERIAL PRIMARY KEY,
   city TEXT NOT NULL,
   minutes INT NOT NULL,
   fare NUMERIC(6,2) NOT NULL
 );
 
-INSERT INTO trips (city, minutes, fare) VALUES
+TRUNCATE public.trips;
+
+INSERT INTO public.trips (city, minutes, fare) VALUES
 ('Charlotte', 12, 12.50),
 ('Charlotte', 21, 20.00),
 ('New York', 9, 10.90),
